@@ -1,0 +1,42 @@
+{% extends "blogcucc/mainpage.html" %}
+{% load blogtag %}
+{% block main%}
+	{% if user.is_superuser %}
+		<a href="{% url 'blogcucc_editbejegyzes' bejegyzes.pk %}" class="btn btn-primary btn-lg" role="button">Szerkezt</a><br>
+	{% endif %}
+	<h1>{{bejegyzes.cim}}</h1>
+	<small class="text-muted">{{bejegyzes.ido}} /
+	{{bejegyzes.irta.username}}<br>
+	cimkek:
+	{% for c in bejegyzes.cimkek.all %}
+		<a href="{% url 'blogcucc_cimke' c.szoveg %}">{{c.szoveg}}</a>,
+	{% endfor %}
+	</small><br>
+	<p>{%autoescape off%}{{bejegyzes.szoveg|safe|stat_kep|highlight_syntaxy|linebreaks|hide_tag}}{%endautoescape%}</p>
+	<hr>
+	Kommentek:<br>
+	{% for k in kommentek %}
+		<blockquote>
+			<small>{{k.szoveg|safe|linebreaks}}</small>
+			<footer>
+			{% if k.irta %}
+				{{k.irta}}
+			{% else %}
+				névtelen
+			{%endif%}
+			({{k.ido}})</footer>
+		</blockquote>
+		<br>
+	{% endfor %}
+	<hr>
+	komment:
+	<form action="{% url 'blogcucc_addkomment' bejegyzes.pk %}" method="post">
+		{{kommentform.as_p}}
+		<input type="submit" value="komment" class="btn btn-primary btn-sm">
+	</form>
+{%endblock%}
+{%block head%}
+<style>
+
+</style>
+{%endblock%}

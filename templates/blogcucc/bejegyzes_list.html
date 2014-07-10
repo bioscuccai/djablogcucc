@@ -1,0 +1,23 @@
+{% extends "blogcucc/mainpage.html"%}
+{% load blogtag %}
+{% block main %}
+    {% if user.is_superuser %}
+        <a href="{% url 'blogcucc_addbejegyzes'%}" class="btn btn-primary btn-lg" role="button">uj bejegyzes</a>
+        <a href="{% url 'blogcucc_addcimke'%}" class="btn btn-primary btn-lg" role="button">uj cimke</a><br>
+    {% endif %}
+    {% for b in bejegyzesek %}
+        <a href="{% url 'blogcucc_detailbejegyzes' b.pk %}"><h1>{{b.cim}}</h1></a><br>
+        <small class="text-muted">{{b.ido}} / {{b.irta.username}}</small><br>
+        <small class="text-muted">
+            kommentek: {{b.count_komment}} cimkek:
+        {% for c in b.cimkek.all %}
+            <a href="#">{{c.szoveg}}</a>,
+        {% endfor %}
+    </small><br>
+    <p>{%autoescape off%}{{b.get_first_part|highlight_syntaxy|stat_kep|linebreaks|highlight_syntaxy}}{%endautoescape%}</p>
+
+    <hr>
+    {% endfor %}
+{% endblock main %}
+{% block side %}
+{%endblock side%}

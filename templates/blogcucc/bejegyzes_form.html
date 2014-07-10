@@ -1,0 +1,8 @@
+{% extends "blogcucc/mainpage.html" %}
+{% block main %}
+<a href="{% url 'blogcucc_addcimke'%}" class="btn btn-primary btn-lg" role="button">uj cimke</a><br>
+<form method="post">
+    {{form.as_p}}
+    <input type="submit" value="kuld"/>
+</form>
+{%endblock%}

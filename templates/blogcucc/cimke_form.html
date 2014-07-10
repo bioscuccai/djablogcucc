@@ -1,0 +1,7 @@
+{%extends "blogcucc/mainpage.html"%}
+{%block main%}
+<form action="{% url "blogcucc_addcimke" %}" method="post">
+    {{form.as_p}}
+    <input type="submit" value="uj cimke"/>
+</form>
+{%endblock%}
